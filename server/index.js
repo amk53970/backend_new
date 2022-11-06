@@ -26,7 +26,7 @@ app.listen(PORT, () => {
 
 
 
-app.get("/zubeProjects/request", (req, res) => { // localhost:3001/zubeProjects
+app.get("/zubeProjects/request", (req, res) => { // localhost:3001/zubeProjects/request
 
     // dependencies
     var fs = require('fs');
@@ -58,15 +58,13 @@ app.get("/zubeProjects/request", (req, res) => { // localhost:3001/zubeProjects
     };
     
     var token;
-    var data;
+    var data; var info;
     function callback(error, response, body) {
         if (!error && response.statusCode == 200) {
             // console.log("token");
             // console.log(body);
             data = JSON.parse(body);
             token = data.access_token;
-
-            res.json({ message: "access_jwt: " + token });
 
             headers = {
                 'Authorization': 'Bearer ' + token,
@@ -81,7 +79,9 @@ app.get("/zubeProjects/request", (req, res) => { // localhost:3001/zubeProjects
             
             function callZube(error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    console.log(body);
+                    info = JSON.parse(body);
+
+                    res.json({ 'name': info.data[0].name });
                 }
             }
             
