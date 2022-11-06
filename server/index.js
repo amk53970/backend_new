@@ -26,7 +26,7 @@ app.listen(PORT, () => {
 
 
 
-app.get("/zubeProjects", (req, res) => { // localhost:3001/zubeProjects
+app.get("/zubeProjects/request", (req, res) => { // localhost:3001/zubeProjects
 
     // dependencies
     var fs = require('fs');
@@ -43,15 +43,12 @@ app.get("/zubeProjects", (req, res) => { // localhost:3001/zubeProjects
         exp: now + 60, // JWT expiration time (10 minute maximum)
         iss: client_id // Your Zube client id
     }, private_key, { algorithm: 'RS256' });
-
-    console.log("This is the refresh_jwt with 1 one minute expiration \n")
-    console.log(refresh_jwt);
   
     //to get token
     var headers = {
-        'Authorization': 'Bearer ' + refresh_jwt,
-        'X-Client-ID': client_id,
-        'Accept': 'application/json'
+        'Authorization': 'Bearer ' + refresh_jwt,              
+        'X-Client-ID': client_id,               
+        'Accept': 'application/json'    
     };
     
     var options = {
@@ -60,22 +57,42 @@ app.get("/zubeProjects", (req, res) => { // localhost:3001/zubeProjects
         headers: headers
     };
     
-    var token = "nothing"
+    var token;
     var data;
     function callback(error, response, body) {
-        if (!error && response.statusCode == 200) { 
+        if (!error && response.statusCode == 200) {
             // console.log("token");
             // console.log(body);
             data = JSON.parse(body);
             token = data.access_token;
-            console.log("Token inside callback function: " + token)
+
+            res.json({ message: "access_jwt: " + token });
+
+            headers = {
+                'Authorization': 'Bearer ' + token,
+                'X-Client-ID': client_id,
+                'Accept': 'application/json'
+            };
+            
+            options = {
+                url: 'https://zube.io/api/projects',
+                headers: headers
+            };
+            
+            function callZube(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log(body);
+                }
+            }
+            
+            request(options, callZube);
+
         }
-        console.log(token);
     }
 
     request(options, callback);
 
-    console.log("Token outside callback function: " + token);
+    // console.log("Token outside callback function: " + token + data);
 
 //   // to invoke Zube API
   
@@ -99,7 +116,5 @@ app.get("/zubeProjects", (req, res) => { // localhost:3001/zubeProjects
 //          console.log(body);
 //      }
 //   }
-
-    res.json({ message: "access_jwt: " + token });
 
 });
