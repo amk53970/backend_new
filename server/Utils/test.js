@@ -2,21 +2,52 @@
 // const express = require("express");
 const fs = require('fs');
 const jsonwebtoken = require('jsonwebtoken'); // $ npm install jsonwebtoken
+const axios = require('axios');
 // const request = require('request');
 // const cors = require('cors');
 
+
+// Variables
+const client_id = "e931c1d4-434e-11ed-980d-df355d201f91";
+
+
 var methods = {
-    getRefresh_JWT: function(id) {
+    getRefresh_JWT: function() {
         var private_key = fs.readFileSync("C:\\Users\\chess\\Documents\\Important\\Programming Skills\\ReactJS\\application1\\server\\zube_api_key.pem");
 
         var now = Math.floor(Date.now() / 1000);
         var refresh_jwt = jsonwebtoken.sign({
             iat: now,      // Issued at time
             exp: now + 60, // JWT expiration time (10 minute maximum)
-            iss: id // Your Zube client id
+            iss: client_id // Your Zube client id
         }, private_key, { algorithm: 'RS256' });
 
         return refresh_jwt;
+    },
+
+    getAccess_JWT: async function() {
+        var refresh_jwt = this.getRefresh_JWT();
+
+        const response = await axios.post(
+            'https://zube.io/api/users/tokens',
+            '',
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + refresh_jwt,
+                    'X-Client-ID': client_id,
+                    'Accept': 'application/json'
+                }
+            }
+        );
+
+        console.log(response.data.access_token);
+
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log(response.data.access_token);
+                resolve(response.data.access_token);
+            });
+        });
     }
 };
 
