@@ -40,11 +40,8 @@ var methods = {
             }
         );
 
-        console.log(response.data.access_token);
-
         return new Promise((resolve) => {
             setTimeout(() => {
-                console.log(response.data.access_token);
                 resolve(response.data.access_token);
             });
         });

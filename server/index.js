@@ -8,6 +8,7 @@ const express = require("express");
 // const jsonwebtoken = require('jsonwebtoken'); // $ npm install jsonwebtoken
 const request = require('request');
 const cors = require('cors');
+const axios = require('axios');
 
 
 // Other global variables
@@ -64,83 +65,24 @@ app.get("/access_jwt", (req, res) => { // localhost:3001/access_jwt
 app.get("/zubeProjects/request", async (req, res) => { // localhost:3001/zubeProjects/request
 
     var access_jwt = await utils.data.getAccess_JWT();
-  
-    // //to get token
-    // var headers = {
-    //     'Authorization': 'Bearer ' + refresh_jwt,              
-    //     'X-Client-ID': client_id,               
-    //     'Accept': 'application/json'    
-    // };
+
+    var headers = {
+        'Authorization': 'Bearer ' + access_jwt,
+        'X-Client-ID': client_id,
+        'Accept': 'application/json'
+    };
     
-    // var options = {
-    //     url: 'https://zube.io/api/users/tokens',
-    //     method: 'POST',
-    //     headers: headers
-    // };
+    var options = {
+        url: 'https://zube.io/api/cards?where%5Bproject_id%5D=29609',
+        headers: headers
+    };
     
-    // var token;
-    // var data; var info;
-    // function callback(error, response, body) {
-    //     if (!error && response.statusCode == 200) {
-    //         // console.log("token");
-    //         // console.log(body);
-    //         data = JSON.parse(body);
-    //         token = data.access_token;
-
-    //         headers = {
-    //             'Authorization': 'Bearer ' + token,
-    //             'X-Client-ID': client_id,
-    //             'Accept': 'application/json'
-    //         };
-            
-    //         options = {
-    //             url: 'https://zube.io/api/projects',
-    //             headers: headers
-    //         };
-            
-    //         function callZube(error, response, body) {
-    //             if (!error && response.statusCode == 200) {
-    //                 info = JSON.parse(body);
-
-    //                 res.json({ 'name': info.data[0].name });
-    //             }
-    //         }
-            
-    //         request(options, callZube);
-
-    //     }
-    // }
-
-    // request(options, callback);
-
-
-
-
-
-
-    // console.log("Token outside callback function: " + token + data);
-
-//   // to invoke Zube API
-  
-//   zubeheaders = {
-//     'Authorization': 'Bearer ' + token,
-//     'X-Client-ID': "e931c1d4-434e-11ed-980d-df355d201f91",
-//     'Accept': 'application/json'
-//   };
-
-//   zubeoptions = {
-//     url: 'https://zube.io/api/projects',
-//     headers: zubeheaders
-//   };
-
-//   function zubecallback(error, response, body) {
-//      console.log("zubecallback");
-//      console.log(error);
-//      console.log(response.statusCode);
-
-//      if (!error && response.statusCode == 200) {
-//          console.log(body);
-//      }
-//   }
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.json(JSON.parse(body));
+        }
+    }
+    
+    request(options, callback);
 
 });
