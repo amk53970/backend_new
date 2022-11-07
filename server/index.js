@@ -1,48 +1,46 @@
-// server/index.js
+// Imports
+var utils = require('./Utils/test.js');
 
+
+// Required libraries and assets
 const express = require("express");
-
-const PORT = process.env.PORT || 3001;
-
-const app = express();
+const fs = require('fs');
+const jsonwebtoken = require('jsonwebtoken'); // $ npm install jsonwebtoken
+const request = require('request');
 const cors = require('cors');
+
+
+// Other global variables
+const PORT = process.env.PORT || 3001;
+const app = express();
+const client_id = "e931c1d4-434e-11ed-980d-df355d201f91";
+
+
+// App modification statements
 app.use(cors({
     origin:'*'
 }));
-
-
-app.get("/api", (req, res) => { // localhost:3001/api
-
-    res.json({ message: "Hello from server!" });
-});
-
-app.get("/", (req, res) => { // localhost:3001
-    res.json({ message: "Hello from server!" });
-});
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
 
 
-
+// API endpoints
 app.get("/zubeProjects/request", (req, res) => { // localhost:3001/zubeProjects/request
 
-    // dependencies
-    var fs = require('fs');
-    var async = require('async');
-    var jsonwebtoken = require('jsonwebtoken'); // $ npm install jsonwebtoken
-    var request = require('request');
+    // var private_key = fs.readFileSync("C:\\Users\\chess\\Documents\\Important\\Programming Skills\\ReactJS\\application1\\server\\zube_api_key.pem");
 
-    var client_id = "e931c1d4-434e-11ed-980d-df355d201f91";
-    var private_key = fs.readFileSync("C:\\Users\\chess\\Documents\\Important\\Programming Skills\\ReactJS\\application1\\server\\zube_api_key.pem");
+    // var now = Math.floor(Date.now() / 1000);
+    // var refresh_jwt = jsonwebtoken.sign({
+    //     iat: now,      // Issued at time
+    //     exp: now + 60, // JWT expiration time (10 minute maximum)
+    //     iss: client_id // Your Zube client id
+    // }, private_key, { algorithm: 'RS256' });
 
-    var now = Math.floor(Date.now() / 1000);
-    var refresh_jwt = jsonwebtoken.sign({
-        iat: now,      // Issued at time
-        exp: now + 60, // JWT expiration time (10 minute maximum)
-        iss: client_id // Your Zube client id
-    }, private_key, { algorithm: 'RS256' });
+    console.log(utils)
+
+    var refresh_jwt = utils.data.getRefresh_JWT(client_id);
   
     //to get token
     var headers = {
