@@ -12,7 +12,7 @@ const client_id = "e931c1d4-434e-11ed-980d-df355d201f91";
 
 
 var methods = {
-    getRefresh_JWT: function() {
+    get_refresh_JWT: function() {
         var private_key = fs.readFileSync("C:\\Users\\chess\\Documents\\Important\\Programming Skills\\ReactJS\\application1\\server\\zube_api_key.pem");
 
         var now = Math.floor(Date.now() / 1000);
@@ -25,9 +25,9 @@ var methods = {
         return refresh_jwt;
     },
 
-    getAccess_JWT: async function() {
-        var refresh_jwt = this.getRefresh_JWT();
-
+    get_access_JWT: async function() {
+        var refresh_jwt = this.get_refresh_JWT();
+        
         const response = await axios.post(
             'https://zube.io/api/users/tokens',
             '',
