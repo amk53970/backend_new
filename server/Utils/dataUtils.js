@@ -39,10 +39,6 @@ var methods = {
         result.cards = data.pagination.total;
         result.projects = this.get_projects(data).length;
 
-        /* 
-        
-        */
-
         return result;
 
     }
