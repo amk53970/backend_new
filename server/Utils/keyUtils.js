@@ -8,12 +8,12 @@ const axios = require('axios');
 
 
 // Variables
-const client_id = "e931c1d4-434e-11ed-980d-df355d201f91";
+const client_id = "ed4cfc1a-48d1-11ed-9721-8fed3ea79b2a";
 
 
 var methods = {
     get_refresh_JWT: function() {
-        var private_key = fs.readFileSync("C:\\Users\\chess\\Documents\\Important\\Programming Skills\\ReactJS\\application1\\server\\zube_api_key.pem");
+        var private_key = fs.readFileSync("C:/Users/Alex/Documents/GitHub/Backend/server/zube_api_key.pemC:/Users/Alex/Documents/GitHub/backend_new/server/zube_api_key.pem");
 
         var now = Math.floor(Date.now() / 1000);
         var refresh_jwt = jsonwebtoken.sign({
