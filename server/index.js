@@ -109,6 +109,7 @@ app.get("/testAPI", async (req, res) => {
     
     // request(options, callback);
     res.json(await axios.get('http://localhost:3001/testEndpoint').data);
+    res.json(await axios.get('http://localhost:3001/burn').data);
 
 });
 
@@ -120,21 +121,153 @@ app.get("/testEndpoint", async (req, res) => {
             "prop2": "more sample aging",
             "prop3": "even more sample aging"
         },
-        "cycletime": {
-            "prop1": "sample cycle",
-            "prop2": "more sample cycle",
-            "prop3": "even more sample cycle"
-        },
-        "burnupburndown": {
-            "prop1": "sample burn",
-            "prop2": "more sample burn",
-            "prop3": "even more sample burn"
-        },
-        "velocity": {
-            "prop1": "sample velocity",
-            "prop2": "more sample velocity",
-            "prop3": "even more sample velocity"
-        },
+        "cycletime": [
+          {
+            "avg_time_completed": 10,
+            "sprint_id": "sprint1"
+              },
+          {
+            "avg_time_completed": 4,
+            "sprint_id": "sprint2"
+               },
+               {
+            "avg_time_completed": 8,
+            "sprint_id": "sprint3"
+              },
+              {
+            "avg_time_completed": 6,
+            "sprint_id": "sprint4"
+              },
+              {
+              "avg_time_completed": 12,
+              "sprint_id": "sprint5"
+              },
+              {
+                "avg_time_completed": 25,
+                "sprint_id": "sprint6"
+                  },
+                  {
+                "avg_time_completed": 3,
+                "sprint_id": "sprint7"
+                 },
+                 {
+                  "avg_time_completed": 8,
+                  "sprint_id": "sprint8"
+                    }
+        ],
+
+        "burnData": [
+          {
+            "date": 23,
+            "pointsdone": 6,
+            "sprint_id": "sprint1"
+              },
+          {
+            "date": 24,
+            "pointsdone": 8,
+            "sprint_id": "sprint1"
+              },
+          {
+            "date": 25,
+            "pointsdone": 10,
+            "sprint_id": "sprint1"
+              },
+          {
+            "date": 23,
+            "pointsdone": 2,
+            "sprint_id": "sprint2"
+              },
+          {
+            "date": 24,
+            "pointsdone": 4,
+            "sprint_id": "sprint2"
+              },
+          {
+            "date": 25,
+            "pointsdone": 13,
+            "sprint_id": "sprint2"
+              }
+        ],
+
+        "velocity": [
+            {
+              "sprint_id": "sprint1",
+              "Velocity": 45,
+              "Estimated/Completed": "Completed"
+            },
+            {
+              "sprint_id": "sprint1",
+              "Velocity": 44,
+              "Estimated/Completed": "Estimated"
+            },
+            {
+              "sprint_id": "sprint2",
+              "Velocity": 35,
+              "Estimated/Completed": "Completed"
+            },
+            {
+              "sprint_id": "sprint2",
+              "Velocity": 33,
+              "Estimated/Completed": "Estimated"
+            },
+            {
+              "sprint_id": "sprint3",
+              "Velocity": 55,
+              "Estimated/Completed": "Completed"
+            },
+            {
+              "sprint_id": "sprint3",
+              "Velocity": 56,
+              "Estimated/Completed": "Estimated"
+            },
+            {
+              "sprint_id": "sprint1",
+              "user_id": "Aaaa",
+              "User_Velocity": 15
+            },
+            {
+              "sprint_id": "sprint1",
+              "user_id": "Bbbb",
+              "User_Velocity": 20
+            },
+            {
+              "sprint_id": "sprint1",
+              "user_id": "Cccc",
+              "User_Velocity": 10
+            },
+            {
+              "sprint_id": "sprint2",
+              "user_id": "Aaaa",
+              "User_Velocity": 20
+            },
+            {
+              "sprint_id": "sprint2",
+              "user_id": "Bbbb",
+              "User_Velocity": 22
+            },
+            {
+              "sprint_id": "sprint2",
+              "user_id": "Cccc",
+              "User_Velocity": 14
+            },
+            {
+              "sprint_id": "sprint3",
+              "user_id": "Aaaa",
+              "User_Velocity": 11
+            },
+            {
+              "sprint_id": "sprint3",
+              "user_id": "Bbbb",
+              "User_Velocity": 17
+            },
+            {
+              "sprint_id": "sprint3",
+              "user_id": "Cccc",
+              "User_Velocity": 8
+            }
+
+        ],
+    
         "testingData": [
             {
               "year": "1850",
@@ -4262,6 +4395,7 @@ app.get("/testEndpoint", async (req, res) => {
               "category": "Gas flarinl"
             }
         ]
+        
     });
 
 });
@@ -4269,5 +4403,44 @@ app.get("/testEndpoint", async (req, res) => {
 app.get("/cycle-time", (req, res) => { 
 
     res.json();
+
+});
+
+app.get("/burn", (req, res) => { 
+
+  res.json({
+    "burnData": [
+      {
+        "date": 23,
+        "pointsdone": 6,
+        "sprint_id": "sprint1"
+      },
+      {
+        "date": 24,
+        "pointsdone": 8,
+        "sprint_id": "sprint1"
+      },
+      {
+        "date": 25,
+        "pointsdone": 10,
+        "sprint_id": "sprint1"
+      },
+      {
+        "date": 23,
+        "pointsdone": 2,
+        "sprint_id": "sprint2"
+      },
+      {
+        "date": 24,
+        "pointsdone": 4,
+        "sprint_id": "sprint2"
+      },
+      {
+        "date": 25,
+        "pointsdone": 13,
+        "sprint_id": "sprint2"
+      }
+    ]
+  });
 
 });
