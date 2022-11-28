@@ -119,7 +119,8 @@ app.get("/testEndpoint", async (req, res) => {
         "agingcharts": {
             "prop1": "sample aging",
             "prop2": "more sample aging",
-            "prop3": "even more sample aging"
+            "prop3": "even more sample aging",
+            "prop4": "even even more"
         },
         "cycletime": [
           {
